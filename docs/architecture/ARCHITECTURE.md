@@ -134,8 +134,15 @@ Vercel
 
 Authentication  
 
-NextAuth or Supabase Auth
+Supabase Auth
 
+Supported authentication methods:
+
+- Google OAuth
+- Email / Password login
+
+Supabase Auth is used for user identity, session handling,
+and integration with the PostgreSQL database.
 
 
 Analytics  
@@ -552,14 +559,18 @@ Intent Page
 
 
 
-\## Results
+## Results
 
+/results/[id]
 
+Each quiz completion creates a persistent result record in the database.
 
-/results
+Benefits:
 
-
-
+- users can revisit their results
+- results can be restored
+- analytics can track result pages
+- results can be saved to user accounts
 ---
 
 
@@ -1006,9 +1017,9 @@ PostgreSQL
 
 Authentication  
 
-NextAuth or Supabase Auth
+Supabase Auth
 
-
+Google OAuth and Email login are supported through Supabase Auth.
 
 Analytics  
 
