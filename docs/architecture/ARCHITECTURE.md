@@ -614,9 +614,12 @@ Display results
 Scoring engine defined in:
 
 
+MATCHING_ENGINE_LOGIC.md
 
-QUESTIONNAIRE\_MATCHING\_ENGINE.md
+Quiz question structure and score mappings
+are defined in:
 
+QUESTIONNAIRE_MATCHING_ENGINE.md
 
 
 Process:
