@@ -1,0 +1,16 @@
+/*
+ * Global styles — Phase 1 skeleton.
+ * Design system tokens and component styles will be added in Phase 2.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  direction: rtl;
+}
