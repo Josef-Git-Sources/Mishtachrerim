@@ -8,7 +8,7 @@
  * This does NOT enforce authentication — it only refreshes the token.
  * Route protection is handled in each layout (dashboard, admin).
  */
-import { createServerClient as createSupabaseServerClient } from '@supabase/ssr'
+import { createServerClient as createSupabaseServerClient, type CookieOptions } from '@supabase/ssr'
 import { type NextRequest, NextResponse } from 'next/server'
 import { clientEnv } from '@/lib/env/client'
 
@@ -23,7 +23,7 @@ export async function updateSession(request: NextRequest) {
         getAll() {
           return request.cookies.getAll()
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           )

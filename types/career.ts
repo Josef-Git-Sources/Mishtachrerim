@@ -27,3 +27,25 @@ export interface CareerPath {
   createdAt: string
   updatedAt: string
 }
+
+/**
+ * Minimal course display fields as shown on a career page.
+ * Sourced from the courses table via the course_career_paths junction.
+ * Only published courses are included.
+ */
+export interface CareerCourse {
+  id: string
+  slug: string
+  title: string
+  providerName: string | null
+  duration: string | null
+  learningMode: string | null
+  priceRange: string | null
+  depositEligible: boolean
+  editorialRating: number | null
+}
+
+/** A career path with its associated published courses. */
+export interface CareerPathWithCourses extends CareerPath {
+  courses: CareerCourse[]
+}

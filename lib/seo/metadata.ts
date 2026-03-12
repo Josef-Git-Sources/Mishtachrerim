@@ -22,6 +22,16 @@ interface BuildMetadataParams {
    * Examples: /dashboard/*, /admin/*, /results/[id]
    */
   noIndex?: boolean
+  /**
+   * When provided, adds Open Graph meta tags.
+   * Pass an empty object ({}) to inherit title/description from the page.
+   * Absolute og:url is derived from `path` via the canonical layer.
+   * OG image is not set in Phase 3 — add in a later phase.
+   */
+  openGraph?: {
+    title?: string
+    description?: string
+  }
 }
 
 export function buildMetadata({
@@ -29,6 +39,7 @@ export function buildMetadata({
   description,
   path,
   noIndex = false,
+  openGraph,
 }: BuildMetadataParams): Metadata {
   const metadata: Metadata = {
     title,
@@ -41,6 +52,15 @@ export function buildMetadata({
   if (path) {
     metadata.alternates = {
       canonical: canonicalUrl(path),
+    }
+  }
+
+  if (openGraph !== undefined) {
+    const ogDescription = openGraph.description ?? description
+    metadata.openGraph = {
+      title: openGraph.title ?? title,
+      ...(ogDescription && { description: ogDescription }),
+      ...(path && { url: canonicalUrl(path) }),
     }
   }
 

@@ -8,7 +8,7 @@
  * The function is async because Next.js 15 cookies() returns a Promise.
  * Always await the result: const supabase = await createServerClient()
  */
-import { createServerClient as createSupabaseServerClient } from '@supabase/ssr'
+import { createServerClient as createSupabaseServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { clientEnv } from '@/lib/env/client'
 
@@ -23,7 +23,7 @@ export async function createServerClient() {
         getAll() {
           return cookieStore.getAll()
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options)

@@ -2,7 +2,7 @@
  * Barrel export for all application types.
  * Import types from '@/types' rather than individual type files.
  */
-export type { CareerPath, PageType } from './career'
+export type { CareerPath, CareerCourse, CareerPathWithCourses, PageType } from './career'
 export type { Course, CourseWithCareers, LearningMode } from './course'
 export type {
   QuizMode,
