@@ -4,11 +4,11 @@
  * Converts quiz answers into ranked career recommendations.
  * This is the core of the Decision Engine described in the product docs.
  *
- * Architecture rules (must be maintained in Phase 2 implementation):
+ * Architecture rules:
  *   - Runs server-side only. Never import in Client Components.
  *   - Pure function: no database calls, no network requests, no side effects.
- *   - Score mappings are loaded by the caller (API route) and passed in.
- *   - Must be deterministic: identical answers must always produce identical output.
+ *   - Score data is loaded by the caller (API route) and passed in.
+ *   - Deterministic: identical answers always produce identical output.
  *   - Expected runtime: well below 50ms.
  *
  * Scoring source of truth:
@@ -19,46 +19,81 @@
  *
  * IMPORTANT: If MATCHING_ENGINE_LOGIC.md examples conflict with score values
  * in QUIZ_QUESTION_BANK.md, the question bank takes precedence.
- *
- * Phase 1: Stub only. Throws NotImplementedError.
- * Phase 2: Replace the body of calculateResults() with full scoring logic.
- *          Do not change the function signature.
  */
-import type { SubmittedAnswer, ScoreMapping, RankedCareer } from '@/types'
+import type { SubmittedAnswer, QuizAnswerScore, RankedCareer } from '@/types'
+
+/**
+ * Fixed tie-break priority order (MATCHING_ENGINE_LOGIC.md §8).
+ * Applied when two careers have equal scores. Lower number = higher priority.
+ */
+const TIE_BREAK_PRIORITY: Record<string, number> = {
+  'full-stack-developer': 1,
+  'data-analyst':         2,
+  'qa-tester':            3,
+  'ux-ui-designer':       4,
+  'digital-marketing':    5,
+  'it-support':           6,
+  'network-technician':   7,
+  'project-management':   8,
+  'graphic-design':       9,
+  'ecommerce-manager':    10,
+}
 
 /**
  * Calculates ranked career recommendations from a set of quiz answers.
  *
- * @param answers  - The submitted question/answer pairs from the quiz.
- * @param mappings - Score mappings loaded from the database before calling.
- *                   Each mapping associates one answer with one career and a point value.
- * @returns Ranked array of career matches, sorted by score descending.
- *          The UI displays only the top 3. The engine may return more for analytics.
+ * Only careers with a positive accumulated score are returned.
+ * The caller is responsible for truncating to top 3 before persistence.
  *
- * @throws Error if called before Phase 2 implementation is in place.
+ * @param answers      - The submitted question/answer pairs from the quiz.
+ * @param answerScores - Score data loaded from quiz_answer_scores, enriched
+ *                       with career slug and name via join with career_paths.
+ * @returns Ranked array of careers with positive scores, sorted descending.
+ *          Ties resolved by fixed priority order (MATCHING_ENGINE_LOGIC.md §8).
  */
 export function calculateResults(
-  _answers: SubmittedAnswer[],
-  _mappings: ScoreMapping[]
+  answers: SubmittedAnswer[],
+  answerScores: QuizAnswerScore[]
 ): RankedCareer[] {
-  // TODO Phase 2: implement scoring logic
-  //
-  // Algorithm steps (see MATCHING_ENGINE_LOGIC.md):
-  //   1. Initialize all career scores to 0
-  //   2. For each submitted answer, find matching score mappings
-  //   3. Add score values to the corresponding career accumulators
-  //   4. Sort careers by accumulated score descending
-  //   5. Apply tie-break rules (see MATCHING_ENGINE_LOGIC.md §8)
-  //   6. Return ranked results
-  //
-  // Tie-break fixed priority order (from MATCHING_ENGINE_LOGIC.md §8):
-  //   Full Stack Developer → Data Analyst → QA Tester → UX/UI Designer →
-  //   Digital Marketing → IT Support → Network Technician →
-  //   Project Management → Graphic Design → Ecommerce Manager
+  // Build lookup: answerId → score entries
+  const scoreLookup = new Map<string, QuizAnswerScore[]>()
+  for (const entry of answerScores) {
+    const bucket = scoreLookup.get(entry.answerId) ?? []
+    bucket.push(entry)
+    scoreLookup.set(entry.answerId, bucket)
+  }
 
-  throw new Error(
-    'calculateResults is not yet implemented. ' +
-      'See /docs/quiz/MATCHING_ENGINE_LOGIC.md for the algorithm ' +
-      'and /docs/quiz/QUIZ_QUESTION_BANK.md for score values.'
-  )
+  // Accumulate scores per career path
+  const accumulated = new Map<string, { slug: string; name: string; score: number }>()
+
+  for (const answer of answers) {
+    const mappings = scoreLookup.get(answer.answerId) ?? []
+    for (const mapping of mappings) {
+      const current = accumulated.get(mapping.careerPathId) ?? {
+        slug:  mapping.careerPathSlug,
+        name:  mapping.careerPathName,
+        score: 0,
+      }
+      current.score += mapping.scoreValue
+      accumulated.set(mapping.careerPathId, current)
+    }
+  }
+
+  // Keep only careers with a positive score (per product decision)
+  const ranked = Array.from(accumulated.values()).filter((c) => c.score > 0)
+
+  // Sort: score descending, then fixed tie-break priority ascending
+  ranked.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score
+    const pa = TIE_BREAK_PRIORITY[a.slug] ?? 999
+    const pb = TIE_BREAK_PRIORITY[b.slug] ?? 999
+    return pa - pb
+  })
+
+  return ranked.map((career, index) => ({
+    careerPathSlug: career.slug,
+    careerPathName: career.name,
+    score:          career.score,
+    rank:           index + 1,
+  }))
 }

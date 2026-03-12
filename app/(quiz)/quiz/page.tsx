@@ -1,30 +1,35 @@
 /**
- * Quiz start / quick quiz — /quiz
+ * Quiz page — /quiz
  *
- * Entry point for the quiz flow. Presents the mode selection (quick vs deep)
- * and runs the quick quiz (5 questions) in a single Client Component using
- * state-based progression (Option A from the routing spec).
- *
- * On completion, calls POST /api/quiz/submit with the submitted answers.
- * The API returns a result_id and the browser navigates to /results/[id].
+ * Server Component entry point. Reads the mode from search params (default: quick),
+ * loads questions from the database, and passes them to the QuizShell Client Component.
  *
  * noIndex: the quiz is an interactive tool, not an SEO page.
- *
- * Phase 1: placeholder.
  */
 import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/seo/metadata'
+import { getQuizQuestions } from '@/lib/data/questions'
+import { QuizShell } from './_components/QuizShell'
+import type { QuizMode } from '@/types'
 
 export const metadata: Metadata = buildMetadata({
   title: 'שאלון קריירה',
   noIndex: true,
 })
 
-export default function QuizPage() {
-  return (
-    <section>
-      <h1>שאלון קריירה</h1>
-      <p>placeholder — quiz interface (QuizShell component) will be added in Phase 2</p>
-    </section>
-  )
+const VALID_MODES: QuizMode[] = ['quick', 'deep']
+
+interface Props {
+  searchParams: Promise<{ mode?: string }>
+}
+
+export default async function QuizPage({ searchParams }: Props) {
+  const { mode: rawMode } = await searchParams
+  const mode: QuizMode = VALID_MODES.includes(rawMode as QuizMode)
+    ? (rawMode as QuizMode)
+    : 'quick'
+
+  const questions = await getQuizQuestions(mode)
+
+  return <QuizShell questions={questions} mode={mode} />
 }

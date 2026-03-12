@@ -8,10 +8,12 @@ export type {
   QuizMode,
   QuizQuestion,
   QuizAnswer,
-  ScoreMapping,
+  QuizQuestionWithAnswers,
+  QuizAnswerScore,
   SubmittedAnswer,
   RankedCareer,
   QuizResult,
   QuizResultCareer,
+  QuizResultWithCareers,
 } from './quiz'
 export type { AppUser, AuthProvider, UserSession } from './user'
