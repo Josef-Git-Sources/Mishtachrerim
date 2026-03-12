@@ -30,7 +30,9 @@ export function CareerPageContent({ careerPath }: Props) {
       <h1>{title} — מה זה, כמה מרוויחים ואיך מתחילים</h1>
 
       {shortDescription && <p>{shortDescription}</p>}
-      {longDescription && <p>{longDescription}</p>}
+      {longDescription && longDescription.split('\n\n').map((para, i) => (
+        <p key={i}>{para}</p>
+      ))}
 
       {hasFacts && (
         <section>
