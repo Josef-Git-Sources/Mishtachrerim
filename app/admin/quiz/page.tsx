@@ -9,6 +9,11 @@
  *
  * Phase 1: placeholder.
  */
+import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo/metadata'
+
+export const metadata: Metadata = buildMetadata({ title: 'Admin — Quiz', noIndex: true })
+
 export default function AdminQuizPage() {
   return (
     <section>

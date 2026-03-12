@@ -5,6 +5,11 @@
  *
  * Phase 1: placeholder.
  */
+import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo/metadata'
+
+export const metadata: Metadata = buildMetadata({ title: 'Admin — Checklist', noIndex: true })
+
 export default function AdminChecklistPage() {
   return (
     <section>

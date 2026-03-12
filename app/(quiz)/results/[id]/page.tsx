@@ -19,10 +19,10 @@ interface Props {
   params: Promise<{ id: string }>
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params
+export async function generateMetadata(_props: Props): Promise<Metadata> {
+  // TODO Phase 2: use params.id to fetch result-specific title once data layer is wired
   return buildMetadata({
-    title: `תוצאות שאלון`,
+    title: 'תוצאות שאלון',
     noIndex: true,
   })
 }

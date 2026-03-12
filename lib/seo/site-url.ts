@@ -14,7 +14,7 @@ import { clientEnv } from '@/lib/env/client'
  * Returns an absolute URL for the given path.
  *
  * @param path - A relative path, e.g. '/career/qa-tester'
- * @returns Absolute URL, e.g. 'https://hatzaad-haba.co.il/career/qa-tester'
+ * @returns Absolute URL, e.g. 'https://example.com/career/qa-tester'
  */
 export function siteUrl(path: string = ''): string {
   const base = clientEnv.NEXT_PUBLIC_SITE_URL.replace(/\/$/, '')
