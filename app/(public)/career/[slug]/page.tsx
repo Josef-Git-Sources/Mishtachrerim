@@ -47,8 +47,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return buildMetadata({ title: 'דף לא נמצא' })
   }
 
+  const seoTitle = careerPath.pageType === 'career'
+    ? `${careerPath.title} — שכר, זמן הכשרה והאם זה מתאים לכם`
+    : careerPath.title
+
   return buildMetadata({
-    title:       careerPath.title,
+    title:       seoTitle,
     description: careerPath.shortDescription ?? undefined,
     path:        `/career/${slug}`,
     openGraph:   {},

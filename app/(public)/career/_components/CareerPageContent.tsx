@@ -27,7 +27,7 @@ export function CareerPageContent({ careerPath }: Props) {
 
   return (
     <article>
-      <h1>{title}</h1>
+      <h1>{title} — מה זה, כמה מרוויחים ואיך מתחילים</h1>
 
       {shortDescription && <p>{shortDescription}</p>}
       {longDescription && <p>{longDescription}</p>}
