@@ -1,42 +1,54 @@
 /**
  * Course detail page — /courses/[slug]
  *
- * SEO page and conversion page for a single training program.
- * Displays provider info, duration, mode, price, rating, and a CTA to the provider.
- * Statically generated at build time.
+ * Minimal SEO page for a single training course.
+ * Statically generated at build time from published course slugs.
  *
- * Phase 1: placeholder.
+ * ISR: revalidated hourly. New published courses appear on first request
+ * without requiring a full rebuild.
  */
+import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/seo/metadata'
+import {
+  getPublishedCourseSlugs,
+  getCourseBySlug,
+  getCoursePageBySlug,
+} from '@/lib/data/courses'
+import { CoursePageContent } from '../_components/CoursePageContent'
+
+export const revalidate = 3600
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
 export async function generateStaticParams() {
-  // TODO: Query published course slugs from the database
-  // const courses = await fetchPublishedCourses()
-  // return courses.map((c) => ({ slug: c.slug }))
-  return []
+  const slugs = await getPublishedCourseSlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  // TODO: Fetch course by slug and use real title/description
+  const course = await getCourseBySlug(slug)
+
+  if (!course) {
+    return buildMetadata({ title: 'דף לא נמצא' })
+  }
+
   return buildMetadata({
-    title: slug,
-    path: `/courses/${slug}`,
+    title:       course.title,
+    description: course.description ?? undefined,
+    path:        `/courses/${slug}`,
+    openGraph:   {},
   })
 }
 
 export default async function CourseDetailPage({ params }: Props) {
   const { slug } = await params
-  // TODO: Fetch course record by slug; join with career paths via course_career_paths
-  return (
-    <article>
-      <h1>{slug}</h1>
-      <p>placeholder — course content will be loaded from the database</p>
-    </article>
-  )
+  const course = await getCoursePageBySlug(slug)
+
+  if (!course) notFound()
+
+  return <CoursePageContent course={course} />
 }

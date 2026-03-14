@@ -1,0 +1,112 @@
+/**
+ * Data-access: courses.
+ *
+ * Server-side only. Do not import in Client Components.
+ *
+ * Used by:
+ *   - app/(public)/courses/[slug]/page.tsx (generateStaticParams, generateMetadata, page)
+ *
+ * All queries filter to is_published = true.
+ * Unpublished courses are never exposed through these functions.
+ */
+import { createServerClient } from '@/lib/supabase/server'
+import type { Course } from '@/types'
+
+// ─── Local DB row type ─────────────────────────────────────────────────────────
+
+type DbCourse = {
+  id: string
+  slug: string
+  title: string
+  provider_name: string | null
+  description: string | null
+  duration: string | null
+  learning_mode: string | null
+  price_range: string | null
+  deposit_eligible: boolean
+  editorial_rating: number | null
+  provider_url: string | null
+  is_published: boolean
+  created_at: string
+  updated_at: string
+}
+
+// ─── Mapper ───────────────────────────────────────────────────────────────────
+
+function mapCourse(row: DbCourse): Course {
+  return {
+    id:              row.id,
+    slug:            row.slug,
+    title:           row.title,
+    providerName:    row.provider_name,
+    description:     row.description,
+    duration:        row.duration,
+    learningMode:    row.learning_mode as Course['learningMode'],
+    priceRange:      row.price_range,
+    depositEligible: row.deposit_eligible,
+    editorialRating: row.editorial_rating,
+    providerUrl:     row.provider_url,
+    isPublished:     row.is_published,
+    createdAt:       row.created_at,
+    updatedAt:       row.updated_at,
+  }
+}
+
+// ─── Queries ──────────────────────────────────────────────────────────────────
+
+/**
+ * Returns slugs for all published courses.
+ * Used by generateStaticParams — returns [] safely when nothing is published.
+ */
+export async function getPublishedCourseSlugs(): Promise<string[]> {
+  const supabase = await createServerClient()
+
+  const { data, error } = await supabase
+    .from('courses')
+    .select('slug')
+    .eq('is_published', true)
+    .order('slug', { ascending: true })
+
+  if (error) {
+    throw new Error(`Failed to load course slugs: ${error.message}`)
+  }
+
+  return (data ?? []).map((row: { slug: string }) => row.slug)
+}
+
+/**
+ * Returns a single published course by slug.
+ * Returns null for unknown or unpublished slugs.
+ * Used by generateMetadata — lightweight, no joins.
+ */
+export async function getCourseBySlug(slug: string): Promise<Course | null> {
+  const supabase = await createServerClient()
+
+  const { data, error } = await supabase
+    .from('courses')
+    .select(`
+      id, slug, title, provider_name, description,
+      duration, learning_mode, price_range,
+      deposit_eligible, editorial_rating, provider_url,
+      is_published, created_at, updated_at
+    `)
+    .eq('slug', slug)
+    .eq('is_published', true)
+    .single()
+
+  if (error) {
+    if (error.code === 'PGRST116') return null
+    throw new Error(`Failed to load course: ${error.message}`)
+  }
+
+  return mapCourse(data as unknown as DbCourse)
+}
+
+/**
+ * Returns a single published course by slug for full page rendering.
+ * In Phase 4A this is identical to getCourseBySlug — separation is maintained
+ * to match the project pattern and allow richer joins in later phases.
+ */
+export async function getCoursePageBySlug(slug: string): Promise<Course | null> {
+  return getCourseBySlug(slug)
+}
