@@ -55,6 +55,31 @@ function mapCourse(row: DbCourse): Course {
 // ─── Queries ──────────────────────────────────────────────────────────────────
 
 /**
+ * Returns all published courses ordered alphabetically by title.
+ * Used by the courses hub page (/courses).
+ */
+export async function getPublishedCourses(): Promise<Course[]> {
+  const supabase = await createServerClient()
+
+  const { data, error } = await supabase
+    .from('courses')
+    .select(`
+      id, slug, title, provider_name, description,
+      duration, learning_mode, price_range,
+      deposit_eligible, editorial_rating, provider_url,
+      is_published, created_at, updated_at
+    `)
+    .eq('is_published', true)
+    .order('title', { ascending: true })
+
+  if (error) {
+    throw new Error(`Failed to load published courses: ${error.message}`)
+  }
+
+  return (data ?? []).map((row) => mapCourse(row as unknown as DbCourse))
+}
+
+/**
  * Returns slugs for all published courses.
  * Used by generateStaticParams — returns [] safely when nothing is published.
  */
