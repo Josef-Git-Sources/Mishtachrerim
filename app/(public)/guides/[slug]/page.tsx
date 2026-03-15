@@ -5,39 +5,51 @@
  * Each guide captures broad informational search queries and leads
  * users into the quiz or career exploration flow.
  *
- * Phase 1: generateStaticParams returns an empty array (no content yet).
- *          The page renders a placeholder for any slug.
+ * Content is fully static — no database queries.
+ * Three guides are served:
+ *   - what-to-do-after-army
+ *   - how-to-enter-high-tech-without-degree
+ *   - high-paying-jobs-without-degree
+ *
+ * ISR: revalidated hourly, matching the convention across all public pages.
  */
+import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/seo/metadata'
+import { getGuide, getAllGuideSlugs } from '@/lib/content/guides'
+import { GuidePageContent } from '../_components/GuidePageContent'
+
+export const revalidate = 3600
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
-export async function generateStaticParams() {
-  // TODO: Query published guide slugs from the database
-  // const guides = await fetchPublishedGuides()
-  // return guides.map((g) => ({ slug: g.slug }))
-  return []
+export function generateStaticParams() {
+  return getAllGuideSlugs().map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  // TODO: Fetch guide by slug and use real title/description
+  const guide = getGuide(slug)
+
+  if (!guide) {
+    return buildMetadata({ title: 'דף לא נמצא' })
+  }
+
   return buildMetadata({
-    title: slug,
-    path: `/guides/${slug}`,
+    title:       guide.title,
+    description: guide.description,
+    path:        `/guides/${slug}`,
+    openGraph:   {},
   })
 }
 
 export default async function GuideDetailPage({ params }: Props) {
   const { slug } = await params
-  // TODO: Fetch guide content by slug from the database
-  return (
-    <article>
-      <h1>{slug}</h1>
-      <p>placeholder — guide content will be loaded from the database</p>
-    </article>
-  )
+  const guide = getGuide(slug)
+
+  if (!guide) notFound()
+
+  return <GuidePageContent guide={guide} />
 }
