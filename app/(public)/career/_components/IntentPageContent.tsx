@@ -15,10 +15,22 @@ import type { CareerPath } from '@/types'
 // Update this map when new intent pages are added.
 
 const PARENT_CAREER_MAP: Record<string, { slug: string; title: string }> = {
-  'how-to-become-qa':           { slug: 'qa-tester',    title: 'QA Tester' },
-  'qa-salary':                  { slug: 'qa-tester',    title: 'QA Tester' },
-  'how-to-become-data-analyst': { slug: 'data-analyst', title: 'Data Analyst' },
-  'data-analyst-salary':        { slug: 'data-analyst', title: 'Data Analyst' },
+  // QA Tester
+  'how-to-become-qa':           { slug: 'qa-tester',       title: 'QA Tester' },
+  'qa-salary':                  { slug: 'qa-tester',       title: 'QA Tester' },
+  'qa-without-experience':      { slug: 'qa-tester',       title: 'QA Tester' },
+  'qa-learning-time':           { slug: 'qa-tester',       title: 'QA Tester' },
+  // Data Analyst
+  'how-to-become-data-analyst':        { slug: 'data-analyst', title: 'Data Analyst' },
+  'data-analyst-salary':               { slug: 'data-analyst', title: 'Data Analyst' },
+  'data-analyst-without-experience':   { slug: 'data-analyst', title: 'Data Analyst' },
+  'data-analyst-learning-time':        { slug: 'data-analyst', title: 'Data Analyst' },
+  // Digital Marketing
+  'how-to-become-digital-marketer': { slug: 'digital-marketing', title: 'Digital Marketing' },
+  'digital-marketing-salary':       { slug: 'digital-marketing', title: 'Digital Marketing' },
+  // UX/UI Designer
+  'how-to-become-ux-designer': { slug: 'ux-ui-designer', title: 'UX/UI Designer' },
+  'ux-designer-salary':         { slug: 'ux-ui-designer', title: 'UX/UI Designer' },
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
