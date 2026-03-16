@@ -4,10 +4,24 @@
  * Intent pages target specific search queries (e.g. "how to become a QA tester").
  * They are structurally lighter than career pages — no course list.
  *
- * The link back to /career is a generic fallback because career_paths has no
- * parent_career_path_id FK. A direct parent link requires a schema change (Phase 4+).
+ * Parent career linkage is resolved via PARENT_CAREER_MAP, a small explicit
+ * static mapping keyed on intent page slug. No DB column required.
+ * Any slug not present in the map falls back to the generic /career index.
  */
 import type { CareerPath } from '@/types'
+
+// ─── Parent career mapping ────────────────────────────────────────────────────
+// Maps each intent page slug to its parent career page slug and display title.
+// Update this map when new intent pages are added.
+
+const PARENT_CAREER_MAP: Record<string, { slug: string; title: string }> = {
+  'how-to-become-qa':           { slug: 'qa-tester',    title: 'QA Tester' },
+  'qa-salary':                  { slug: 'qa-tester',    title: 'QA Tester' },
+  'how-to-become-data-analyst': { slug: 'data-analyst', title: 'Data Analyst' },
+  'data-analyst-salary':        { slug: 'data-analyst', title: 'Data Analyst' },
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 interface Props {
   careerPath: CareerPath
@@ -15,6 +29,7 @@ interface Props {
 
 export function IntentPageContent({ careerPath }: Props) {
   const {
+    slug,
     title,
     shortDescription,
     longDescription,
@@ -25,6 +40,7 @@ export function IntentPageContent({ careerPath }: Props) {
   } = careerPath
 
   const hasFacts = salaryRange || trainingTime || difficultyLevel
+  const parent = PARENT_CAREER_MAP[slug]
 
   return (
     <article>
@@ -66,10 +82,14 @@ export function IntentPageContent({ careerPath }: Props) {
         </section>
       )}
 
-      {/* Generic fallback — no parent_career_path_id FK in schema yet */}
       <p>
-        <a href="/career">לכל מסלולי הקריירה</a>
+        {parent ? (
+          <a href={`/career/${parent.slug}`}>למסלול {parent.title} המלא</a>
+        ) : (
+          <a href="/career">לכל מסלולי הקריירה</a>
+        )}
       </p>
     </article>
   )
 }
+
