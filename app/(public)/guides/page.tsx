@@ -1,11 +1,12 @@
 /**
  * Guides index — /guides
  *
- * Directory of SEO informational guides.
- * Phase 1: placeholder.
+ * Static hub listing all SEO informational guides.
+ * Content is driven entirely by lib/content/guides.ts — no database queries.
  */
 import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/seo/metadata'
+import { getAllGuides } from '@/lib/content/guides'
 
 export const metadata: Metadata = buildMetadata({
   title: 'מדריכים',
@@ -14,10 +15,19 @@ export const metadata: Metadata = buildMetadata({
 })
 
 export default function GuidesIndexPage() {
+  const guides = getAllGuides()
+
   return (
     <section>
       <h1>מדריכים</h1>
-      <p>placeholder — guide list will be loaded from the database</p>
+      <ul>
+        {guides.map((guide) => (
+          <li key={guide.slug}>
+            <a href={`/guides/${guide.slug}`}>{guide.title}</a>
+            <p>{guide.description}</p>
+          </li>
+        ))}
+      </ul>
     </section>
   )
 }
