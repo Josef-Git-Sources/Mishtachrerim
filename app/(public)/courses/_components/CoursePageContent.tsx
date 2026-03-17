@@ -22,7 +22,10 @@ export function CoursePageContent({ course }: Props) {
     depositEligible,
     editorialRating,
     providerUrl,
+    careerPaths,
   } = course
+
+  const primaryCareer = careerPaths[0] ?? null
 
   const hasFacts = providerName || duration || learningMode || priceRange || editorialRating !== null
 
@@ -84,6 +87,12 @@ export function CoursePageContent({ course }: Props) {
             לאתר הקורס
           </a>
         </section>
+      )}
+
+      {primaryCareer && (
+        <p>
+          <a href={`/career/${primaryCareer.slug}`}>למסלול {primaryCareer.title} המלא</a>
+        </p>
       )}
 
       <p>
