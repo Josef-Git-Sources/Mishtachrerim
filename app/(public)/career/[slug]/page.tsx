@@ -19,6 +19,7 @@
  */
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import type { CareerPath } from '@/types'
 import { buildMetadata } from '@/lib/seo/metadata'
 import {
   getPublishedCareerPathSlugs,
@@ -27,6 +28,22 @@ import {
 } from '@/lib/data/career-paths'
 import { CareerPageContent } from '../_components/CareerPageContent'
 import { IntentPageContent } from '../_components/IntentPageContent'
+
+// ─── Intent page content guardrail ────────────────────────────────────────────
+// An intent page must have at least one substantive field beyond title and CTAs.
+// Title and CTA links are always present and do not count toward this threshold.
+// Failing pages fall back to notFound() — the same pattern used for missing slugs.
+
+function hasMinimumIntentContent(cp: CareerPath): boolean {
+  return !!(
+    cp.shortDescription ||
+    cp.longDescription  ||
+    cp.salaryRange      ||
+    cp.trainingTime     ||
+    cp.difficultyLevel  ||
+    cp.exampleRoles
+  )
+}
 
 export const revalidate = 3600
 
@@ -66,6 +83,7 @@ export default async function CareerPage({ params }: Props) {
   if (!careerPath) notFound()
 
   if (careerPath.pageType === 'intent') {
+    if (!hasMinimumIntentContent(careerPath)) notFound()
     return <IntentPageContent careerPath={careerPath} />
   }
 
