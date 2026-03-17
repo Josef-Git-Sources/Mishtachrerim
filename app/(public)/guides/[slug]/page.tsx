@@ -6,13 +6,16 @@
  * users into the quiz or career exploration flow.
  *
  * Content is fully static — no database queries.
- * Six guides are served:
+ * Nine guides are served:
  *   - what-to-do-after-army
  *   - how-to-enter-high-tech-without-degree
  *   - high-paying-jobs-without-degree
  *   - what-to-study-after-army
  *   - how-to-choose-career-after-army
  *   - how-to-use-army-deposit
+ *   - professions-without-degree
+ *   - tech-jobs-without-degree
+ *   - common-mistakes-after-army
  *
  * ISR: revalidated hourly, matching the convention across all public pages.
  */
