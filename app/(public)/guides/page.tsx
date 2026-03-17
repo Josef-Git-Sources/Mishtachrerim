@@ -5,6 +5,7 @@
  * Content is driven entirely by lib/content/guides.ts — no database queries.
  */
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { buildMetadata } from '@/lib/seo/metadata'
 import { getAllGuides } from '@/lib/content/guides'
 
@@ -23,7 +24,7 @@ export default function GuidesIndexPage() {
       <ul>
         {guides.map((guide) => (
           <li key={guide.slug}>
-            <a href={`/guides/${guide.slug}`}>{guide.title}</a>
+            <Link href={`/guides/${guide.slug}`}>{guide.title}</Link>
             <p>{guide.description}</p>
           </li>
         ))}
