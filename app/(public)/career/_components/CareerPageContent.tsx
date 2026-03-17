@@ -85,6 +85,11 @@ export function CareerPageContent({ careerPath }: Props) {
           </ul>
         )}
       </section>
+
+      <p>
+        לא בטוחים שזה הכיוון שלכם?{' '}
+        <a href="/quiz">ענו על כמה שאלות קצרות</a>
+      </p>
     </article>
   )
 }
