@@ -13,8 +13,8 @@ interface Props {
 }
 
 export function GuidePageContent({ guide }: Props) {
-  // Collect unique careers referenced anywhere in this guide's sections.
-  // Used to render a compact career-links block before the quiz CTA.
+  // Collect unique careers referenced across all sections.
+  // Rendered as a single inline sentence before the quiz CTA — no section, no heading, no list.
   // No new data fields required — derived purely from the existing sections shape.
   const linkedCareers = guide.sections
     .flatMap((s) => s.careers ?? [])
@@ -45,16 +45,15 @@ export function GuidePageContent({ guide }: Props) {
       ))}
 
       {linkedCareers.length > 0 && (
-        <section>
-          <h2>מסלולי קריירה במדריך זה</h2>
-          <ul>
-            {linkedCareers.map((c) => (
-              <li key={c.slug}>
-                <a href={`/career/${c.slug}`}>{c.title}</a>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <p>
+          {'פירוט על כל מקצוע: '}
+          {linkedCareers.map((c, i) => (
+            <span key={c.slug}>
+              {i > 0 && ' · '}
+              <a href={`/career/${c.slug}`}>{c.title}</a>
+            </span>
+          ))}
+        </p>
       )}
 
       <section>
