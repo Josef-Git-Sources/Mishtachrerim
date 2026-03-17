@@ -15,6 +15,7 @@ import {
   getCourseBySlug,
   getCoursePageBySlug,
 } from '@/lib/data/courses'
+import type { CourseWithCareers } from '@/types'
 import { CoursePageContent } from '../_components/CoursePageContent'
 
 export const revalidate = 3600
@@ -46,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CourseDetailPage({ params }: Props) {
   const { slug } = await params
-  const course = await getCoursePageBySlug(slug)
+  const course: CourseWithCareers | null = await getCoursePageBySlug(slug)
 
   if (!course) notFound()
 

@@ -5,10 +5,10 @@
  * Provider link only rendered when providerUrl is present.
  * No CTA modules, lead forms, or conversion blocks in Phase 4A.
  */
-import type { Course } from '@/types'
+import type { CourseWithCareers } from '@/types'
 
 interface Props {
-  course: Course
+  course: CourseWithCareers
 }
 
 export function CoursePageContent({ course }: Props) {

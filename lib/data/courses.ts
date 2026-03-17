@@ -10,7 +10,7 @@
  * Unpublished courses are never exposed through these functions.
  */
 import { createServerClient } from '@/lib/supabase/server'
-import type { Course } from '@/types'
+import type { Course, CourseWithCareers } from '@/types'
 
 // ─── Local DB row type ─────────────────────────────────────────────────────────
 
@@ -127,11 +127,49 @@ export async function getCourseBySlug(slug: string): Promise<Course | null> {
   return mapCourse(data as unknown as DbCourse)
 }
 
+// ─── Junction row type for course → career paths ──────────────────────────────
+
+type DbCareerPathRow = {
+  career_paths: {
+    id: string
+    slug: string
+    title: string
+    is_published: boolean
+  } | null
+}
+
 /**
- * Returns a single published course by slug for full page rendering.
- * In Phase 4A this is identical to getCourseBySlug — separation is maintained
- * to match the project pattern and allow richer joins in later phases.
+ * Returns a single published course by slug for full page rendering,
+ * including its associated published career paths via the junction table.
+ * Returns null for unknown or unpublished slugs.
  */
-export async function getCoursePageBySlug(slug: string): Promise<Course | null> {
-  return getCourseBySlug(slug)
+export async function getCoursePageBySlug(slug: string): Promise<CourseWithCareers | null> {
+  const course = await getCourseBySlug(slug)
+  if (!course) return null
+
+  const supabase = await createServerClient()
+
+  // Query associated career paths via the junction table.
+  // is_published is filtered in JS — Supabase JS does not support filtering
+  // on nested relation columns in a standard .select() call (mirrors career-paths.ts pattern).
+  const { data: junctionData, error } = await supabase
+    .from('course_career_paths')
+    .select(`
+      career_paths (
+        id, slug, title,
+        is_published
+      )
+    `)
+    .eq('course_id', course.id)
+
+  if (error) {
+    throw new Error(`Failed to load career paths for course: ${error.message}`)
+  }
+
+  const careerPaths = ((junctionData ?? []) as unknown as DbCareerPathRow[])
+    .map((row) => row.career_paths)
+    .filter((cp): cp is NonNullable<typeof cp> => cp !== null && cp.is_published === true)
+    .map((cp) => ({ id: cp.id, slug: cp.slug, title: cp.title }))
+
+  return { ...course, careerPaths }
 }
