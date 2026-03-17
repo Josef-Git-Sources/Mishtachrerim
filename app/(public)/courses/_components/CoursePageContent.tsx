@@ -85,6 +85,11 @@ export function CoursePageContent({ course }: Props) {
           </a>
         </section>
       )}
+
+      <p>
+        לא בטוחים שזה המסלול שמתאים לכם?{' '}
+        <a href="/quiz">ענו על כמה שאלות קצרות</a>
+      </p>
     </article>
   )
 }
