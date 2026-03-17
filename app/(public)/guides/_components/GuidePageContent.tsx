@@ -13,6 +13,13 @@ interface Props {
 }
 
 export function GuidePageContent({ guide }: Props) {
+  // Collect unique careers referenced anywhere in this guide's sections.
+  // Used to render a compact career-links block before the quiz CTA.
+  // No new data fields required — derived purely from the existing sections shape.
+  const linkedCareers = guide.sections
+    .flatMap((s) => s.careers ?? [])
+    .filter((c, i, arr) => arr.findIndex((x) => x.slug === c.slug) === i)
+
   return (
     <article>
       <h1>{guide.h1}</h1>
@@ -36,6 +43,19 @@ export function GuidePageContent({ guide }: Props) {
           )}
         </section>
       ))}
+
+      {linkedCareers.length > 0 && (
+        <section>
+          <h2>מסלולי קריירה במדריך זה</h2>
+          <ul>
+            {linkedCareers.map((c) => (
+              <li key={c.slug}>
+                <a href={`/career/${c.slug}`}>{c.title}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section>
         <h2>לא בטוחים איזה מקצוע מתאים לכם?</h2>
