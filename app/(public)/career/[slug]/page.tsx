@@ -87,5 +87,17 @@ export default async function CareerPage({ params }: Props) {
     return <IntentPageContent careerPath={careerPath} />
   }
 
-  return <CareerPageContent careerPath={careerPath} />
+  return (
+    <>
+      <CareerPageContent careerPath={careerPath} />
+      <section>
+        <h2>הצעד הבא</h2>
+        <p>
+          אם המסלול הזה מעניין אתכם,{' '}
+          <a href="/quiz">השאלון הקצר שלנו</a>{' '}
+          עוזר לבדוק אם הכיוון מתאים לכם.
+        </p>
+      </section>
+    </>
+  )
 }
