@@ -25,8 +25,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   return buildMetadata({
-    title: slug,
-    path: `/courses/editorial/${slug}`,
+    title:       slug.replace(/-/g, ' ') || 'קורסים מומלצים',
+    description: 'השוואת קורסים והכשרות מקצועיות',
+    path:        `/courses/editorial/${slug}`,
   })
 }
 
