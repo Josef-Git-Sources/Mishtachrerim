@@ -13,7 +13,6 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/seo/metadata'
 import { getCareerEditorial, getAllCareerEditorialSlugs } from '@/lib/content/career-editorials'
-import { CareerEditorialContent } from '../_components/CareerEditorialContent'
 
 export const revalidate = 3600
 
@@ -47,5 +46,35 @@ export default async function CareerEditorialPage({ params }: Props) {
 
   if (!editorial) notFound()
 
-  return <CareerEditorialContent editorial={editorial} />
+  const [careerA, careerB] = editorial.careers
+
+  return (
+    <article>
+      <h1>{editorial.h1}</h1>
+      <p>{editorial.intro}</p>
+
+      {editorial.sections.map((section, i) => (
+        <section key={i}>
+          <h2>{section.heading}</h2>
+          {section.paragraphs.map((para, j) => (
+            <p key={j}>{para}</p>
+          ))}
+        </section>
+      ))}
+
+      <section>
+        <h2>הצעדים הבאים</h2>
+        <p>
+          {'קראו עוד על כל אחד מהמסלולים: '}
+          <a href={`/career/${careerA.slug}`}>{careerA.title}</a>
+          {' · '}
+          <a href={`/career/${careerB.slug}`}>{careerB.title}</a>
+        </p>
+        <p>
+          עדיין לא בטוחים מה מתאים לכם?{' '}
+          <a href="/quiz">ענו על כמה שאלות קצרות וקבלו המלצה מותאמת אישית</a>
+        </p>
+      </section>
+    </article>
+  )
 }
