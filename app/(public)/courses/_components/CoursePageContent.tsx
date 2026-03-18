@@ -89,16 +89,18 @@ export function CoursePageContent({ course }: Props) {
         </section>
       )}
 
-      {primaryCareer && (
-        <p>
-          <a href={`/career/${primaryCareer.slug}`}>למסלול {primaryCareer.title} המלא</a>
-        </p>
-      )}
+      <section>
+        {primaryCareer && (
+          <p>
+            <a href={`/career/${primaryCareer.slug}`}>למסלול {primaryCareer.title} המלא</a>
+          </p>
+        )}
 
-      <p>
-        לא בטוחים שזה המסלול שמתאים לכם?{' '}
-        <a href="/quiz">ענו על כמה שאלות קצרות</a>
-      </p>
+        <p>
+          לא בטוחים שזה המסלול שמתאים לכם?{' '}
+          <a href="/quiz">ענו על כמה שאלות קצרות</a>
+        </p>
+      </section>
     </article>
   )
 }
