@@ -140,6 +140,7 @@ export function IntentPageContent({ careerPath }: Props) {
 
       <section>
         <p>
+          {'הצעד הבא: '}
           {parent ? (
             <a href={`/career/${parent.slug}`}>למסלול {parent.title} המלא</a>
           ) : (
