@@ -5,7 +5,8 @@
  * Targets comparison-intent search queries (e.g. "QA tester vs data analyst").
  *
  * Content is fully static — no database queries.
- * Two editorials are served: qa-tester-vs-data-analyst, qa-tester-vs-full-stack-developer
+ * Three editorials are served: qa-tester-vs-data-analyst, qa-tester-vs-full-stack-developer,
+ * data-analyst-vs-full-stack-developer
  *
  * ISR: revalidated hourly, matching the convention across all public pages.
  */
