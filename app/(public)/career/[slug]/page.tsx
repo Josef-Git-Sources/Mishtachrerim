@@ -64,15 +64,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return buildMetadata({ title: 'דף לא נמצא' })
   }
 
-  const seoTitle = careerPath.pageType === 'career'
-    ? `${careerPath.title} — שכר, זמן הכשרה והאם זה מתאים לכם`
-    : careerPath.title
+  const isCareer = careerPath.pageType === 'career'
+
+  const title = isCareer
+    ? `${careerPath.title || 'מסלול קריירה'} — שכר, זמן הכשרה והאם זה מתאים לכם`
+    : careerPath.title || 'מידע על מסלול'
+
+  const description = isCareer
+    ? (careerPath.shortDescription || 'מידע על שכר, זמן הכשרה ותנאי הכניסה למסלול')
+    : (careerPath.shortDescription || 'תשובות ומידע על השאלה')
 
   return buildMetadata({
-    title:       seoTitle,
-    description: careerPath.shortDescription ?? undefined,
-    path:        `/career/${slug}`,
-    openGraph:   {},
+    title,
+    description,
+    path:      `/career/${slug}`,
+    openGraph: {},
   })
 }
 

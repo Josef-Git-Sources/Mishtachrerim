@@ -38,8 +38,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return buildMetadata({
-    title:       course.title,
-    description: course.description ?? undefined,
+    title:       `${course.title || 'קורס הכשרה'} — קורס מקצועי`,
+    description: course.description || 'פרטי הקורס, תכנים ומה תלמדו',
     path:        `/courses/${slug}`,
     openGraph:   {},
   })
