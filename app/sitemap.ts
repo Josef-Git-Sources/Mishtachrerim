@@ -18,6 +18,7 @@ import { siteUrl } from '@/lib/seo/site-url'
 import { getPublishedCareerPathSlugs } from '@/lib/data/career-paths'
 import { getPublishedCourseSlugs } from '@/lib/data/courses'
 import { getAllGuideSlugs } from '@/lib/content/guides'
+import { getAllCareerEditorialSlugs } from '@/lib/content/career-editorials'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [careerSlugs, courseSlugs] = await Promise.all([
@@ -26,6 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ])
 
   const guideSlugs = getAllGuideSlugs()
+  const careerEditorialSlugs = getAllCareerEditorialSlugs()
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -68,10 +70,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority:        0.8,
   }))
 
+  const careerEditorialRoutes: MetadataRoute.Sitemap = careerEditorialSlugs.map((slug) => ({
+    url:             siteUrl(`/career/editorial/${slug}`),
+    changeFrequency: 'monthly',
+    priority:        0.8,
+  }))
+
   return [
     ...staticRoutes,
     ...careerRoutes,
     ...courseRoutes,
     ...guideRoutes,
+    ...careerEditorialRoutes,
   ]
 }
