@@ -524,7 +524,6 @@ INSERT INTO public.quiz_answer_scores (answer_id, career_path_id, score_value)
 SELECT qa.id, cp.id, v.score_value
 FROM public.quiz_answers qa
 JOIN public.quiz_questions q ON q.id = qa.question_id
-JOIN public.career_paths cp  ON cp.slug = v.career_slug
 CROSS JOIN (VALUES
   ('a', 'full-stack-developer', 3),
   ('a', 'data-analyst',         3),
@@ -540,6 +539,7 @@ CROSS JOIN (VALUES
   ('d', 'network-technician',   3),
   ('d', 'qa-tester',            2)
 ) AS v(answer_key, career_slug, score_value)
+JOIN public.career_paths cp  ON cp.slug = v.career_slug
 WHERE q.question_key = 'q1' AND qa.answer_key = v.answer_key
 ON CONFLICT (answer_id, career_path_id) DO NOTHING;
 
@@ -548,7 +548,6 @@ INSERT INTO public.quiz_answer_scores (answer_id, career_path_id, score_value)
 SELECT qa.id, cp.id, v.score_value
 FROM public.quiz_answers qa
 JOIN public.quiz_questions q ON q.id = qa.question_id
-JOIN public.career_paths cp  ON cp.slug = v.career_slug
 CROSS JOIN (VALUES
   ('a', 'full-stack-developer', 3),
   ('a', 'data-analyst',         2),
@@ -561,6 +560,7 @@ CROSS JOIN (VALUES
   ('d', 'project-management',   2),
   ('d', 'graphic-design',       2)
 ) AS v(answer_key, career_slug, score_value)
+JOIN public.career_paths cp  ON cp.slug = v.career_slug
 WHERE q.question_key = 'q2' AND qa.answer_key = v.answer_key
 ON CONFLICT (answer_id, career_path_id) DO NOTHING;
 
@@ -569,7 +569,6 @@ INSERT INTO public.quiz_answer_scores (answer_id, career_path_id, score_value)
 SELECT qa.id, cp.id, v.score_value
 FROM public.quiz_answers qa
 JOIN public.quiz_questions q ON q.id = qa.question_id
-JOIN public.career_paths cp  ON cp.slug = v.career_slug
 CROSS JOIN (VALUES
   ('a', 'data-analyst',         3),
   ('a', 'full-stack-developer', 2),
@@ -580,6 +579,7 @@ CROSS JOIN (VALUES
   ('d', 'project-management',   3),
   ('d', 'digital-marketing',    2)
 ) AS v(answer_key, career_slug, score_value)
+JOIN public.career_paths cp  ON cp.slug = v.career_slug
 WHERE q.question_key = 'q3' AND qa.answer_key = v.answer_key
 ON CONFLICT (answer_id, career_path_id) DO NOTHING;
 
@@ -588,7 +588,6 @@ INSERT INTO public.quiz_answer_scores (answer_id, career_path_id, score_value)
 SELECT qa.id, cp.id, v.score_value
 FROM public.quiz_answers qa
 JOIN public.quiz_questions q ON q.id = qa.question_id
-JOIN public.career_paths cp  ON cp.slug = v.career_slug
 CROSS JOIN (VALUES
   ('a', 'qa-tester',            3),
   ('a', 'it-support',           3),
@@ -599,6 +598,7 @@ CROSS JOIN (VALUES
   ('c', 'full-stack-developer', 3),
   ('c', 'network-technician',   2)
 ) AS v(answer_key, career_slug, score_value)
+JOIN public.career_paths cp  ON cp.slug = v.career_slug
 WHERE q.question_key = 'q4' AND qa.answer_key = v.answer_key
 ON CONFLICT (answer_id, career_path_id) DO NOTHING;
 
@@ -607,7 +607,6 @@ INSERT INTO public.quiz_answer_scores (answer_id, career_path_id, score_value)
 SELECT qa.id, cp.id, v.score_value
 FROM public.quiz_answers qa
 JOIN public.quiz_questions q ON q.id = qa.question_id
-JOIN public.career_paths cp  ON cp.slug = v.career_slug
 CROSS JOIN (VALUES
   ('a', 'full-stack-developer', 3),
   ('a', 'data-analyst',         2),
@@ -619,6 +618,7 @@ CROSS JOIN (VALUES
   ('d', 'project-management',   3),
   ('d', 'digital-marketing',    2)
 ) AS v(answer_key, career_slug, score_value)
+JOIN public.career_paths cp  ON cp.slug = v.career_slug
 WHERE q.question_key = 'q5' AND qa.answer_key = v.answer_key
 ON CONFLICT (answer_id, career_path_id) DO NOTHING;
 
@@ -627,7 +627,6 @@ INSERT INTO public.quiz_answer_scores (answer_id, career_path_id, score_value)
 SELECT qa.id, cp.id, v.score_value
 FROM public.quiz_answers qa
 JOIN public.quiz_questions q ON q.id = qa.question_id
-JOIN public.career_paths cp  ON cp.slug = v.career_slug
 CROSS JOIN (VALUES
   ('a', 'data-analyst',         3),
   ('a', 'full-stack-developer', 1),
@@ -636,6 +635,7 @@ CROSS JOIN (VALUES
   ('c', 'graphic-design',       2),
   ('c', 'ux-ui-designer',       2)
 ) AS v(answer_key, career_slug, score_value)
+JOIN public.career_paths cp  ON cp.slug = v.career_slug
 WHERE q.question_key = 'q6' AND qa.answer_key = v.answer_key
 ON CONFLICT (answer_id, career_path_id) DO NOTHING;
 
@@ -644,7 +644,6 @@ INSERT INTO public.quiz_answer_scores (answer_id, career_path_id, score_value)
 SELECT qa.id, cp.id, v.score_value
 FROM public.quiz_answers qa
 JOIN public.quiz_questions q ON q.id = qa.question_id
-JOIN public.career_paths cp  ON cp.slug = v.career_slug
 CROSS JOIN (VALUES
   ('a', 'full-stack-developer', 3),
   ('a', 'network-technician',   2),
@@ -656,6 +655,7 @@ CROSS JOIN (VALUES
   ('d', 'ecommerce-manager',    3),
   ('d', 'project-management',   2)
 ) AS v(answer_key, career_slug, score_value)
+JOIN public.career_paths cp  ON cp.slug = v.career_slug
 WHERE q.question_key = 'q7' AND qa.answer_key = v.answer_key
 ON CONFLICT (answer_id, career_path_id) DO NOTHING;
 
@@ -664,7 +664,6 @@ INSERT INTO public.quiz_answer_scores (answer_id, career_path_id, score_value)
 SELECT qa.id, cp.id, v.score_value
 FROM public.quiz_answers qa
 JOIN public.quiz_questions q ON q.id = qa.question_id
-JOIN public.career_paths cp  ON cp.slug = v.career_slug
 CROSS JOIN (VALUES
   ('a', 'it-support',           3),
   ('a', 'network-technician',   3),
@@ -673,6 +672,7 @@ CROSS JOIN (VALUES
   ('c', 'graphic-design',       2),
   ('c', 'ux-ui-designer',       2)
 ) AS v(answer_key, career_slug, score_value)
+JOIN public.career_paths cp  ON cp.slug = v.career_slug
 WHERE q.question_key = 'q8' AND qa.answer_key = v.answer_key
 ON CONFLICT (answer_id, career_path_id) DO NOTHING;
 
@@ -681,7 +681,6 @@ INSERT INTO public.quiz_answer_scores (answer_id, career_path_id, score_value)
 SELECT qa.id, cp.id, v.score_value
 FROM public.quiz_answers qa
 JOIN public.quiz_questions q ON q.id = qa.question_id
-JOIN public.career_paths cp  ON cp.slug = v.career_slug
 CROSS JOIN (VALUES
   ('a', 'project-management',   3),
   ('a', 'digital-marketing',    2),
@@ -690,6 +689,7 @@ CROSS JOIN (VALUES
   ('c', 'full-stack-developer', 2),
   ('c', 'graphic-design',       1)
 ) AS v(answer_key, career_slug, score_value)
+JOIN public.career_paths cp  ON cp.slug = v.career_slug
 WHERE q.question_key = 'q9' AND qa.answer_key = v.answer_key
 ON CONFLICT (answer_id, career_path_id) DO NOTHING;
 
@@ -698,7 +698,6 @@ INSERT INTO public.quiz_answer_scores (answer_id, career_path_id, score_value)
 SELECT qa.id, cp.id, v.score_value
 FROM public.quiz_answers qa
 JOIN public.quiz_questions q ON q.id = qa.question_id
-JOIN public.career_paths cp  ON cp.slug = v.career_slug
 CROSS JOIN (VALUES
   ('a', 'full-stack-developer', 3),
   ('a', 'network-technician',   2),
@@ -708,6 +707,7 @@ CROSS JOIN (VALUES
   ('d', 'digital-marketing',    3),
   ('d', 'ecommerce-manager',    2)
 ) AS v(answer_key, career_slug, score_value)
+JOIN public.career_paths cp  ON cp.slug = v.career_slug
 WHERE q.question_key = 'q10' AND qa.answer_key = v.answer_key
 ON CONFLICT (answer_id, career_path_id) DO NOTHING;
 
