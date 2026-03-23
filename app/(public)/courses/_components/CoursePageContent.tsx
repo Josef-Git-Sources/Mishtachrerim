@@ -40,7 +40,7 @@ export function CoursePageContent({ course }: Props) {
       {hasFacts && (
         <section>
           <h2>פרטי הקורס</h2>
-          <dl>
+          <dl className="facts-dl">
             {providerName && (
               <>
                 <dt>ספק</dt>
@@ -83,13 +83,13 @@ export function CoursePageContent({ course }: Props) {
 
       {providerUrl && (
         <section>
-          <a href={providerUrl} target="_blank" rel="noopener noreferrer">
+          <a href={providerUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
             לאתר הקורס
           </a>
         </section>
       )}
 
-      <section>
+      <section className="cta-box">
         {primaryCareer && (
           <p>
             <a href={`/career/${primaryCareer.slug}`}>למסלול {primaryCareer.title} המלא</a>
@@ -98,7 +98,7 @@ export function CoursePageContent({ course }: Props) {
 
         <p>
           לא בטוחים שזה המסלול שמתאים לכם?{' '}
-          <a href="/quiz">ענו על כמה שאלות קצרות</a>
+          <a href="/quiz" className="btn-primary">ענו על כמה שאלות קצרות</a>
         </p>
       </section>
     </article>

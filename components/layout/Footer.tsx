@@ -1,11 +1,13 @@
 /**
  * Site footer — rendered in the (public) layout.
- * Phase 1: minimal placeholder.
+ * Phase 12A: minimal footer with border and copyright line.
  */
 export function Footer() {
   return (
-    <footer>
-      <p>משתחררים — פלטפורמת קריירה למשתחררי צבא</p>
+    <footer className="site-footer">
+      <div className="container">
+        <p>© 2025 משתחררים — פלטפורמת קריירה למשתחררי צבא</p>
+      </div>
     </footer>
   )
 }

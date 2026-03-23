@@ -34,7 +34,7 @@ export default async function ResultsPage({ params }: Props) {
       <h1>התוצאות שלך</h1>
       <p>שאלון: {result.quizType === 'quick' ? 'מהיר' : 'מעמיק'}</p>
 
-      <ol>
+      <ol className="results-ol">
         {result.careers.map((career) => (
           <li key={career.careerPathSlug}>
             <a href={`/career/${career.careerPathSlug}`}>

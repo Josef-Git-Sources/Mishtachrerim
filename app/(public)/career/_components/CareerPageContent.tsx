@@ -37,7 +37,7 @@ export function CareerPageContent({ careerPath }: Props) {
       {hasFacts && (
         <section>
           <h2>פרטים מרכזיים</h2>
-          <dl>
+          <dl className="facts-dl">
             {salaryRange && (
               <>
                 <dt>טווח שכר</dt>
@@ -72,14 +72,15 @@ export function CareerPageContent({ careerPath }: Props) {
         {courses.length === 0 ? (
           <p>אין קורסים משויכים עדיין.</p>
         ) : (
-          <ul>
+          <ul className="card-list">
             {courses.map((course) => (
               <li key={course.id} dir="ltr">
                 <a href={`/courses/${course.slug}`}>{course.title}</a>
-                {course.providerName && <span> — {course.providerName}</span>}
-                {course.duration && <span> · {course.duration}</span>}
-                {course.learningMode && <span> · {course.learningMode}</span>}
-                {course.priceRange && <span> · {course.priceRange}</span>}
+                <span className="card-meta">
+                  {[course.providerName, course.duration, course.learningMode, course.priceRange]
+                    .filter(Boolean)
+                    .join(' · ')}
+                </span>
               </li>
             ))}
           </ul>

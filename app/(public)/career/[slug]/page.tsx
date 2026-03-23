@@ -96,11 +96,11 @@ export default async function CareerPage({ params }: Props) {
   return (
     <>
       <CareerPageContent careerPath={careerPath} />
-      <section>
+      <section className="cta-box">
         <h2>הצעד הבא</h2>
         <p>
           אם המסלול הזה מעניין אתכם,{' '}
-          <a href="/quiz">השאלון הקצר שלנו</a>{' '}
+          <a href="/quiz" className="btn-primary">השאלון הקצר שלנו</a>{' '}
           עוזר לבדוק אם הכיוון מתאים לכם.
         </p>
       </section>

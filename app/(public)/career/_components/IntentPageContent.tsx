@@ -96,7 +96,7 @@ export function IntentPageContent({ careerPath }: Props) {
       {hasFacts && (
         <section>
           <h2>פרטים מרכזיים</h2>
-          <dl>
+          <dl className="facts-dl">
             {salaryRange && (
               <>
                 <dt>טווח שכר</dt>
@@ -138,7 +138,7 @@ export function IntentPageContent({ careerPath }: Props) {
         </p>
       )}
 
-      <section>
+      <section className="cta-box">
         <p>
           {'הצעד הבא: '}
           {parent ? (
@@ -149,10 +149,9 @@ export function IntentPageContent({ careerPath }: Props) {
         </p>
         <p>
           לא בטוחים שזה מתאים לכם?{' '}
-          <a href="/quiz">ענו על כמה שאלות קצרות</a>
+          <a href="/quiz" className="btn-primary">ענו על כמה שאלות קצרות</a>
         </p>
       </section>
     </article>
   )
 }
-

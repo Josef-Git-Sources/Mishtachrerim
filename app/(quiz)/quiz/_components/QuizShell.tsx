@@ -70,7 +70,7 @@ export function QuizShell({ questions, mode }: Props) {
 
   if (status === 'submitting') {
     return (
-      <section>
+      <section className="quiz-status">
         <p>מחשב תוצאות...</p>
       </section>
     )
@@ -78,9 +78,9 @@ export function QuizShell({ questions, mode }: Props) {
 
   if (status === 'error') {
     return (
-      <section>
+      <section className="quiz-status">
         <p>{errorMessage}</p>
-        <button onClick={() => { setStatus('quiz'); setErrorMessage(null) }}>
+        <button className="quiz-retry-btn" onClick={() => { setStatus('quiz'); setErrorMessage(null) }}>
           נסה שוב
         </button>
       </section>
@@ -89,7 +89,7 @@ export function QuizShell({ questions, mode }: Props) {
 
   if (questions.length === 0) {
     return (
-      <section>
+      <section className="quiz-status">
         <p>לא נמצאו שאלות. נסה שוב מאוחר יותר.</p>
       </section>
     )
@@ -97,12 +97,12 @@ export function QuizShell({ questions, mode }: Props) {
 
   return (
     <section>
-      <p>{currentIndex + 1} / {questions.length}</p>
+      <p className="quiz-progress">{currentIndex + 1} / {questions.length}</p>
       {currentIndex > 0 && (
-        <button onClick={handleBack}>← חזרה</button>
+        <button className="quiz-back-btn" onClick={handleBack}>← חזרה</button>
       )}
-      <h2>{currentQuestion.questionText}</h2>
-      <ul>
+      <h2 className="quiz-question-text">{currentQuestion.questionText}</h2>
+      <ul className="quiz-answers">
         {currentQuestion.answers.map((answer) => (
           <li key={answer.id}>
             <button onClick={() => handleAnswer(answer.id)}>

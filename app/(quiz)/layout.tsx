@@ -10,5 +10,5 @@
  *   /results/[id] result display (persistent, shareable)
  */
 export default function QuizLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>
+  return <main className="quiz-main">{children}</main>
 }
