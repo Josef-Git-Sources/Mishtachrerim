@@ -264,3 +264,4 @@ File 3 did not run, so `is_published = false` for all career paths. Run File 3.
 
 **Environment variable error on startup:**
 The app throws at startup if any of the three required vars are missing. Check your hosting platform's environment settings and redeploy.
+
