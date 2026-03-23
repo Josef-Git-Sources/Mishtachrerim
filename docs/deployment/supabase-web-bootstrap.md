@@ -60,7 +60,7 @@ Run the following SQL files **in the exact order listed**. Each step depends on 
 
 Run these files in order. After each one, check for errors before proceeding to the next.
 
-#### File 1 of 6: `supabase/migrations/001_initial_schema.sql`
+#### File 1 of 7: `supabase/migrations/001_initial_schema.sql`
 
 **What it does:** Creates all database tables, extensions, and indexes.
 **Safe to re-run:** Yes — all statements use `CREATE ... IF NOT EXISTS`.
@@ -79,7 +79,7 @@ Run these files in order. After each one, check for errors before proceeding to 
 
 ---
 
-#### File 2 of 6: `supabase/migrations/002_quiz_seed_data.sql`
+#### File 2 of 7: `supabase/migrations/002_quiz_seed_data.sql`
 
 **What it does:** Inserts 10 career path stubs (unpublished), 10 quiz questions, all answer options, and all answer→career score mappings.
 **Safe to re-run:** Yes — all inserts use `ON CONFLICT DO NOTHING`.
@@ -92,7 +92,7 @@ In `career_paths`: you should see 10 rows, all with `is_published = false`.
 
 ---
 
-#### File 3 of 6: `supabase/migrations/003_career_path_content.sql`
+#### File 3 of 7: `supabase/migrations/003_career_path_content.sql`
 
 **What it does:** Updates the 10 career path stubs with full Hebrew content and sets `is_published = true`.
 **Safe to re-run:** Yes — these are `UPDATE` statements; re-running overwrites with the same values.
@@ -103,7 +103,7 @@ In `career_paths`: you should see 10 rows, all with `is_published = false`.
 
 ---
 
-#### File 4 of 6: `supabase/migrations/004_course_seed_data.sql`
+#### File 4 of 7: `supabase/migrations/004_course_seed_data.sql`
 
 **What it does:** Inserts 5 courses and links them to their career paths via the junction table.
 **Safe to re-run:** Yes — courses use `ON CONFLICT DO UPDATE`, junction rows use `ON CONFLICT DO NOTHING`.
@@ -117,7 +117,7 @@ In `course_career_paths`: you should see 5 rows linking each course to its caree
 
 ---
 
-#### File 5 of 6: `supabase/migrations/005_intent_page_seed.sql`
+#### File 5 of 7: `supabase/migrations/005_intent_page_seed.sql`
 
 **What it does:** Inserts 4 intent pages (QA and Data Analyst focused queries) into `career_paths`.
 **Safe to re-run:** Yes — uses `ON CONFLICT DO UPDATE`.
@@ -128,7 +128,7 @@ In `course_career_paths`: you should see 5 rows linking each course to its caree
 
 ---
 
-#### File 6 of 6: `supabase/migrations/006_intent_page_seed_5b.sql`
+#### File 6 of 7: `supabase/migrations/006_intent_page_seed_5b.sql`
 
 **What it does:** Inserts 8 more intent pages (QA, Data Analyst, Digital Marketing, UX/UI) into `career_paths`.
 **Safe to re-run:** Yes — uses `ON CONFLICT DO UPDATE`.
@@ -139,9 +139,24 @@ In `course_career_paths`: you should see 5 rows linking each course to its caree
 
 ---
 
+#### File 7 of 7: `supabase/migrations/007_quiz_hebrew_text.sql`
+
+**What it does:** Updates all 10 quiz questions and 36 quiz answers from English placeholder text to Hebrew. Does not change score mappings or any other data.
+**Safe to re-run:** Yes — these are `UPDATE` statements; re-running overwrites with the same values.
+**Destructive:** No.
+**Depends on:** File 2 must have run first (the rows being updated must exist).
+
+**Validate:** In SQL Editor:
+```sql
+SELECT question_key, question_text FROM public.quiz_questions ORDER BY display_order;
+-- All question_text values should now be in Hebrew.
+```
+
+---
+
 ### Option B — Single Combined File (Convenience)
 
-A combined file with all 6 migrations in the correct order is available at:
+A combined file with all 7 migrations in the correct order is available at:
 
 ```
 supabase/manual_bootstrap.sql
@@ -153,7 +168,7 @@ If it runs without errors, skip to **Step 3 — Validate**.
 
 If you see an error, switch to Option A and run each file individually to identify which migration failed.
 
-> **Note:** The combined file contains only the exact content of the 6 migration files in order. No statements were added, removed, or changed.
+> **Note:** The combined file contains only the exact content of the 7 migration files in order. No statements were added, removed, or changed.
 
 ---
 

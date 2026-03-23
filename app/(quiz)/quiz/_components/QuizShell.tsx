@@ -29,6 +29,11 @@ export function QuizShell({ questions, mode }: Props) {
   const currentQuestion = questions[currentIndex]
   const isLastQuestion = currentIndex === questions.length - 1
 
+  function handleBack() {
+    setCurrentIndex((i) => i - 1)
+    setAnswers((prev) => prev.slice(0, -1))
+  }
+
   async function handleAnswer(answerId: string) {
     const updatedAnswers: SubmittedAnswer[] = [
       ...answers,
@@ -93,6 +98,9 @@ export function QuizShell({ questions, mode }: Props) {
   return (
     <section>
       <p>{currentIndex + 1} / {questions.length}</p>
+      {currentIndex > 0 && (
+        <button onClick={handleBack}>← חזרה</button>
+      )}
       <h2>{currentQuestion.questionText}</h2>
       <ul>
         {currentQuestion.answers.map((answer) => (

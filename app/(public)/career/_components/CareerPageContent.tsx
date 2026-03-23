@@ -74,7 +74,7 @@ export function CareerPageContent({ careerPath }: Props) {
         ) : (
           <ul>
             {courses.map((course) => (
-              <li key={course.id}>
+              <li key={course.id} dir="ltr">
                 <a href={`/courses/${course.slug}`}>{course.title}</a>
                 {course.providerName && <span> — {course.providerName}</span>}
                 {course.duration && <span> · {course.duration}</span>}
