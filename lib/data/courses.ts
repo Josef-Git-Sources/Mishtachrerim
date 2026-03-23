@@ -9,7 +9,7 @@
  * All queries filter to is_published = true.
  * Unpublished courses are never exposed through these functions.
  */
-import { createServerClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public-client'
 import type { Course, CourseWithCareers } from '@/types'
 
 // ─── Local DB row type ─────────────────────────────────────────────────────────
@@ -59,7 +59,7 @@ function mapCourse(row: DbCourse): Course {
  * Used by the courses hub page (/courses).
  */
 export async function getPublishedCourses(): Promise<Course[]> {
-  const supabase = await createServerClient()
+  const supabase = createPublicClient()
 
   const { data, error } = await supabase
     .from('courses')
@@ -84,7 +84,7 @@ export async function getPublishedCourses(): Promise<Course[]> {
  * Used by generateStaticParams — returns [] safely when nothing is published.
  */
 export async function getPublishedCourseSlugs(): Promise<string[]> {
-  const supabase = await createServerClient()
+  const supabase = createPublicClient()
 
   const { data, error } = await supabase
     .from('courses')
@@ -105,7 +105,7 @@ export async function getPublishedCourseSlugs(): Promise<string[]> {
  * Used by generateMetadata — lightweight, no joins.
  */
 export async function getCourseBySlug(slug: string): Promise<Course | null> {
-  const supabase = await createServerClient()
+  const supabase = createPublicClient()
 
   const { data, error } = await supabase
     .from('courses')
@@ -147,7 +147,7 @@ export async function getCoursePageBySlug(slug: string): Promise<CourseWithCaree
   const course = await getCourseBySlug(slug)
   if (!course) return null
 
-  const supabase = await createServerClient()
+  const supabase = createPublicClient()
 
   // Query associated career paths via the junction table.
   // is_published is filtered in JS — Supabase JS does not support filtering

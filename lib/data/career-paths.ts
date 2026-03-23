@@ -9,7 +9,7 @@
  * All queries filter to is_published = true.
  * Unpublished career paths are never exposed through these functions.
  */
-import { createServerClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public-client'
 import type { CareerPath, CareerCourse, CareerPathWithCourses } from '@/types'
 
 // ─── Local DB row types ────────────────────────────────────────────────────────
@@ -72,7 +72,7 @@ function mapCareerPath(row: DbCareerPath): CareerPath {
  * Used by generateStaticParams — returns [] safely when nothing is published.
  */
 export async function getPublishedCareerPathSlugs(): Promise<string[]> {
-  const supabase = await createServerClient()
+  const supabase = createPublicClient()
 
   const { data, error } = await supabase
     .from('career_paths')
@@ -93,7 +93,7 @@ export async function getPublishedCareerPathSlugs(): Promise<string[]> {
  * Used by generateMetadata — lightweight, no course join.
  */
 export async function getCareerPathBySlug(slug: string): Promise<CareerPath | null> {
-  const supabase = await createServerClient()
+  const supabase = createPublicClient()
 
   const { data, error } = await supabase
     .from('career_paths')
@@ -124,7 +124,7 @@ export async function getCareerPathBySlug(slug: string): Promise<CareerPath | nu
 export async function getCareerPathWithCourses(
   slug: string
 ): Promise<CareerPathWithCourses | null> {
-  const supabase = await createServerClient()
+  const supabase = createPublicClient()
 
   // Query 1: fetch the career path
   const { data: cpData, error: cpError } = await supabase
