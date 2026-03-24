@@ -100,7 +100,7 @@ export default async function CareerPage({ params }: Props) {
         <h2>הצעד הבא</h2>
         <p>
           אם המסלול הזה מעניין אתכם,{' '}
-          <a href="/quiz" className="btn-primary">השאלון הקצר שלנו</a>{' '}
+          <a href="/quiz">השאלון הקצר שלנו</a>{' '}
           עוזר לבדוק אם הכיוון מתאים לכם.
         </p>
       </section>

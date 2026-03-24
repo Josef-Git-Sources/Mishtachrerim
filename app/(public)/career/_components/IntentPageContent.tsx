@@ -149,7 +149,7 @@ export function IntentPageContent({ careerPath }: Props) {
         </p>
         <p>
           לא בטוחים שזה מתאים לכם?{' '}
-          <a href="/quiz" className="btn-primary">ענו על כמה שאלות קצרות</a>
+          <a href="/quiz">ענו על כמה שאלות קצרות</a>
         </p>
       </section>
     </article>

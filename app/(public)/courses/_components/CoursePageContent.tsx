@@ -98,7 +98,7 @@ export function CoursePageContent({ course }: Props) {
 
         <p>
           לא בטוחים שזה המסלול שמתאים לכם?{' '}
-          <a href="/quiz" className="btn-primary">ענו על כמה שאלות קצרות</a>
+          <a href="/quiz">ענו על כמה שאלות קצרות</a>
         </p>
       </section>
     </article>
