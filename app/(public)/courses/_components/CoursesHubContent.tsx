@@ -33,6 +33,14 @@ export function CoursesHubContent({ courses }: Props) {
           ))}
         </ul>
       )}
+
+      <section className="cta-box">
+        <p>
+          לא בטוחים איזה קורס מתאים לכם?{' '}
+          <a href="/quiz">השאלון שלנו</a>{' '}
+          עוזר לבחור את הכיוון המקצועי הנכון.
+        </p>
+      </section>
     </section>
   )
 }

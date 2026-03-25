@@ -48,6 +48,14 @@ export default async function ResultsPage({ params }: Props) {
       {result.careers.length === 0 && (
         <p>לא נמצאו תוצאות לשאלון זה.</p>
       )}
+
+      <section className="cta-box">
+        <p>
+          <a href="/quiz">לשאלון מחדש</a>
+          {' · '}
+          <a href="/career">לכל מסלולי הקריירה</a>
+        </p>
+      </section>
     </section>
   )
 }
