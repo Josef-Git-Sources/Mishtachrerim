@@ -70,7 +70,10 @@ export function CareerPageContent({ careerPath }: Props) {
       <section>
         <h2>קורסים רלוונטיים</h2>
         {courses.length === 0 ? (
-          <p>אין קורסים משויכים עדיין.</p>
+          <p>
+            אין קורסים משויכים עדיין.{' '}
+            <a href="/courses">לכל הקורסים הזמינים</a>
+          </p>
         ) : (
           <ul className="card-list">
             {courses.map((course) => (
