@@ -400,6 +400,34 @@ a:hover {
 }
 
 /* ─── Results ────────────────────────────────────────────────── */
+.results-intro {
+  color: var(--c-muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin-top: 0.5rem;
+}
+
+.results-rank-heading {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--c-muted);
+  margin: 1.5rem 0 0;
+}
+
+.results-best-label {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--c-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
+}
+
+.results-ol li:first-child {
+  border-color: var(--c-primary);
+}
+
 .results-ol {
   list-style: none;
   padding: 0;

@@ -32,28 +32,38 @@ export default async function ResultsPage({ params }: Props) {
   return (
     <section>
       <h1>התוצאות שלך</h1>
-      <p>שאלון: {result.quizType === 'quick' ? 'מהיר' : 'מעמיק'}</p>
+      <p className="results-intro">
+        הציון משקף את מידת ההתאמה בין התשובות שלך לכל מסלול — ככל שהציון גבוה יותר, כך ההתאמה גדולה יותר.
+        זו רשימה מדורגת, לא ציון עובר/נכשל.
+      </p>
 
-      <ol className="results-ol">
-        {result.careers.map((career) => (
-          <li key={career.careerPathSlug}>
-            <a href={`/career/${career.careerPathSlug}`}>
-              {career.careerPathName}
-            </a>
-            {' '}— {career.score} נקודות
-          </li>
-        ))}
-      </ol>
-
-      {result.careers.length === 0 && (
+      {result.careers.length === 0 ? (
         <p>לא נמצאו תוצאות לשאלון זה.</p>
+      ) : (
+        <>
+          <h2 className="results-rank-heading">המסלולים המתאימים לך ביותר</h2>
+          <ol className="results-ol">
+            {result.careers.map((career, index) => (
+              <li key={career.careerPathSlug}>
+                {index === 0 && (
+                  <span className="results-best-label">ההתאמה הגבוהה ביותר</span>
+                )}
+                <a href={`/career/${career.careerPathSlug}`}>
+                  {career.careerPathName}
+                </a>
+                {' '}— {career.score} נקודות
+              </li>
+            ))}
+          </ol>
+        </>
       )}
 
       <section className="cta-box">
         <p>
-          <a href="/quiz">לשאלון מחדש</a>
-          {' · '}
+          רוצים לחקור לעומק?{' '}
           <a href="/career">לכל מסלולי הקריירה</a>
+          {' · '}
+          <a href="/quiz">לשאלון מחדש</a>
         </p>
       </section>
     </section>
